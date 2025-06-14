@@ -1,5 +1,4 @@
 #include "mesh.h"
-#include <cstddef>
 
 Mesh::Mesh(std::vector<Vertex> vertecies, std::vector<unsigned int> indecies) 
 {

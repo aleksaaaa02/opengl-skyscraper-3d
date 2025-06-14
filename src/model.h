@@ -1,18 +1,22 @@
 #pragma once
-#include <vector>
-#include "mesh.h"
 #ifndef MODEL_H
 #define MODEL_H
 
+#include <vector>
+#include "mesh.h"
 #include <GL/glew.h>
 
+struct Transform {
+
+};
 
 class Model {
 private:
 	std::vector<Mesh> meshes;
 	
 public:
-	Model();
+	void Draw(Shader& shader);
+	Model(std::vector<Mesh> meshes);
 	~Model();
 };
 
