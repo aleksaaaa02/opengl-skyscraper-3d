@@ -52,6 +52,9 @@ Shader::Shader(const char* vertexPath, const char* fragPath)
 	vertexShader = compileShader(GL_VERTEX_SHADER, vertexPath);
 	fragmentShader = compileShader(GL_FRAGMENT_SHADER, fragPath);
 
+	glAttachShader(program, vertexShader);
+	glAttachShader(program, fragmentShader);
+
 	glLinkProgram(program);
 	glValidateProgram(program);
 	
