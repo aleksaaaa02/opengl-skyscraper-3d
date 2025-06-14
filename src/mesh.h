@@ -9,7 +9,7 @@
 
 struct Vertex  {
 	glm::vec3 Position;
-	glm::vec3 Colors;
+	glm::vec4 Colors;
 };
 
 class Mesh {
@@ -21,7 +21,7 @@ private:
 public:
 	unsigned int VAO;
 	Mesh(std::vector<Vertex> vertecies, std::vector<unsigned int> indecies);
-	~Mesh() = default;
+	~Mesh();
 	void Draw(Shader &shader);
 };
 

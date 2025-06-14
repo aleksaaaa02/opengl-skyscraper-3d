@@ -6,5 +6,6 @@ out vec4 outCol; //Izlazni kanal koji ce biti zavrsna boja tjemena
 
 void main() //Glavna funkcija sejdera
 {
-	outCol = chCol;
+    outCol = chCol;
 }
+
