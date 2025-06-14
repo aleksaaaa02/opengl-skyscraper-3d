@@ -1,6 +1,6 @@
 #define _CRT_SECURE_NO_WARNINGS
-#define wWidth 500
-#define wHeight 500
+#define wWidth 800
+#define wHeight 600 
 
 
 #include <iostream>
