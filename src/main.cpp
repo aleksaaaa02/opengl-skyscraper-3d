@@ -1,4 +1,3 @@
-#include <vector>
 #define _CRT_SECURE_NO_WARNINGS
 #define wWidth 800
 #define wHeight 600 
@@ -9,6 +8,7 @@
 #include <iostream>
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
+#include <vector>
 
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);

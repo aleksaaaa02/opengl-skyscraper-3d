@@ -6,10 +6,6 @@
 #include "mesh.h"
 #include <GL/glew.h>
 
-struct Transform {
-
-};
-
 class Model {
 private:
 	std::vector<Mesh> meshes;
