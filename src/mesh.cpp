@@ -16,7 +16,7 @@ Mesh::Mesh(const Mesh &other) : vertices(other.vertices), indices(other.indices)
 
 
 void Mesh::Draw(Shader &shader) const {
-glBindVertexArray(VAO);
+	glBindVertexArray(VAO);
 	glDrawElements(GL_TRIANGLES, static_cast<unsigned int>(indices.size()), GL_UNSIGNED_INT, 0);
 	glBindVertexArray(0);
 }

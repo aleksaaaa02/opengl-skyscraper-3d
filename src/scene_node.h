@@ -11,14 +11,17 @@
 
 
 class SceneNode : public Model {
-	std::list<std::unique_ptr<SceneNode>> children;
 	SceneNode* parent = nullptr;
 public:
+	std::list<std::unique_ptr<SceneNode>> children;
 	Transform Trans;
 	void AddChild(const Mesh &mesh);
+	void AddChild(std::unique_ptr<SceneNode> node);
 	void DrawSelfAndChild(Shader& shader);
+	SceneNode();
 	SceneNode(const std::vector<Vertex>& vertices, const std::vector<unsigned int>& indices);
 	explicit SceneNode(const Mesh& mesh);
+	explicit SceneNode(const std::shared_ptr<Mesh> &mesh);
 	~SceneNode();
 };
 

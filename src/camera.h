@@ -5,7 +5,7 @@
 #include <glm/glm.hpp>
 #include <iostream>
 
-const float defaultMS = 2.5f;
+const float defaultMS = 5.0f;
 const float defaultYaw = -90.0f;
 const float defaultPitch = 0.0f;
 const float defaultSensitivity = 1.0f;

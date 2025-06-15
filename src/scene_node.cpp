@@ -6,6 +6,21 @@ void SceneNode::AddChild(const Mesh& mesh)
 	children.back() -> parent = this;
 }
 
+void SceneNode::AddChild(std::unique_ptr<SceneNode> node)
+{
+	children.emplace_back(std::move(node));
+}
+
+SceneNode::SceneNode()
+{
+
+}
+
+SceneNode::SceneNode(const std::shared_ptr<Mesh> &mesh) : Model(mesh)
+{
+
+}
+
 SceneNode::SceneNode(const Mesh& mesh) : Model(mesh)
 {
 
