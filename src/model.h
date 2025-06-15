@@ -8,11 +8,11 @@
 
 class Model {
 private:
-	std::vector<Mesh> meshes;
+	Mesh mesh;
 	
 public:
 	void Draw(Shader& shader);
-	Model(std::vector<Mesh> meshes);
+	Model(Mesh mesh);
 	~Model();
 };
 

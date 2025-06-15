@@ -12,10 +12,11 @@ public:
 	glm::vec3 scale = { 1.0f, 1.0f, 1.0f };
 	glm::mat4 modelMatrix = glm::mat4(1.0f);
 	
-	glm::mat4 getLocalMatrix();
-	glm::mat4 getLocalMatrix(glm::mat4 parentModelMatrix);
+	glm::mat4 getLocalModelMatrix();
+	void computeModelMatrix();
+	void computeModelMatrix(const glm::mat4& parentGlobalModelMatrix);
 	Transform();
-	~Transform();
+	~Transform() = default;
 };
 
 #endif // !DEBUG

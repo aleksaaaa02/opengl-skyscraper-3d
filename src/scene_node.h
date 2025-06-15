@@ -12,13 +12,13 @@
 
 class SceneNode : public Model {
 private:
-	Transform transform;
 	std::list<std::unique_ptr<SceneNode>> children;
 	SceneNode* parent = nullptr;
-
 public:
-	void AddChild(std::vector<Mesh> meshes);
-	SceneNode(std::vector<Mesh> meshes);
+	Transform Trans;
+	void AddChild(Mesh mesh);
+	void DrawSelfAndChild(Shader& shader);
+	SceneNode(Mesh mesh);
 	~SceneNode();
 };
 
