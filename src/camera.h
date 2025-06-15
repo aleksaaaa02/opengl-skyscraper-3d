@@ -8,7 +8,7 @@
 const float defaultMS = 2.5f;
 const float defaultYaw = -90.0f;
 const float defaultPitch = 0.0f;
-const float defaultSensitivity = 0.01;
+const float defaultSensitivity = 1.0f;
 
 enum Camera_Movment
 {
@@ -29,7 +29,7 @@ public:
 	glm::vec3 WorldUp;
 	
 	float Yaw;
-	float Pitch;
+	float Pitch = defaultPitch;
 	float MS;
 
 	Camera(glm::vec3 position = glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f), float ms = defaultMS, float yaw = defaultYaw);

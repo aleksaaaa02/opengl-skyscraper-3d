@@ -4,11 +4,11 @@
 
 
 Camera::Camera(glm::vec3 position , glm::vec3 up, float ms, float yaw) 
- : Front(glm::vec3(0.0f, 0.0f, -1.0f)), MS(ms), Yaw(yaw)
+ : Front(glm::vec3(0.0f, 0.0f, -1.0f)), MS(ms), Yaw(yaw), Pitch(0.0f)
 {
 	this -> Position = position;	
 	this -> WorldUp = up;
-
+	updateCamera();
 }
 
 void Camera::MoveCamera(Camera_Movment direction, float deltaTime)

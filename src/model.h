@@ -7,12 +7,14 @@
 #include <GL/glew.h>
 
 class Model {
-private:
+protected:
 	Mesh mesh;
 	
 public:
 	void Draw(Shader& shader);
-	Model(Mesh mesh);
+	Model(const Mesh& mesh);
+	Model(const std::vector<Vertex>& vertices, const std::vector<unsigned int>& indices);
+	Model() = default;
 	~Model();
 };
 

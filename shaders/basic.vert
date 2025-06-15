@@ -11,6 +11,6 @@ uniform mat4 projection;
 
 void main() //Glavna funkcira sejdera
 {
-    gl_Position = projection * view * model * vec4(inPos.xyz, 1.0); 
     chCol = inCol;
+    gl_Position = projection * view * model * vec4(inPos.xyz, 1.0);
 }

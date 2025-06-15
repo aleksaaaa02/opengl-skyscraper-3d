@@ -1,16 +1,20 @@
 #include "scene_node.h"
 
-void SceneNode::AddChild(Mesh mesh)
+void SceneNode::AddChild(const Mesh& mesh)
 {
 	children.emplace_back(std::make_unique<SceneNode>(mesh));
 	children.back() -> parent = this;
 }
 
-SceneNode::SceneNode(Mesh mesh) : Model(mesh)
+SceneNode::SceneNode(const Mesh& mesh) : Model(mesh)
 {
 
 }
 
+SceneNode::SceneNode(const std::vector<Vertex>& vertices, const std::vector<unsigned int>& indices) : Model(vertices, indices)
+{
+
+}
 void SceneNode::DrawSelfAndChild(Shader& shader)
 { 
 	shader.setMat4("model", Trans.getLocalModelMatrix());
@@ -22,7 +26,4 @@ void SceneNode::DrawSelfAndChild(Shader& shader)
 	}	
 }
 
-SceneNode::~SceneNode()
-{
-
-}
+SceneNode::~SceneNode() = default;

@@ -4,7 +4,6 @@
 
 #include <vector>
 #include <glm/glm.hpp>
-#include <GL/glew.h>
 #include "shader.h"
 
 struct Vertex  {
@@ -13,16 +12,18 @@ struct Vertex  {
 };
 
 class Mesh {
-private: 
-	std::vector<Vertex> vertecies;
-	std::vector<unsigned int> indecies;
+	std::vector<Vertex> vertices;
+	std::vector<unsigned int> indices;
 	void meshSetup();
 	unsigned int VBO, EBO;
+
 public:
 	unsigned int VAO;
-	Mesh(std::vector<Vertex> vertecies, std::vector<unsigned int> indecies);
+	Mesh(const std::vector<Vertex> &vertices, const std::vector<unsigned int> &indices);
+	Mesh(const Mesh& other);
+	Mesh();
 	~Mesh();
-	void Draw(Shader &shader);
+	void Draw(Shader &shader) const;
 };
 
 #endif 

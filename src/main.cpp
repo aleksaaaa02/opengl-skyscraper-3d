@@ -1,4 +1,3 @@
-#include <glm/ext/matrix_clip_space.hpp>
 #define _CRT_SECURE_NO_WARNINGS
 #define wWidth 800
 #define wHeight 600 
@@ -14,35 +13,34 @@
 #include <vector>
 
 std::vector<Vertex> vertices = {
-    // Bottom face vertices (z = -0.5)
-    {{-0.5f, -0.5f, -0.5f}, {1.0f, 0.0f, 0.0f, 1.0f}}, // 0: Bottom-left-back
-    {{ 0.5f, -0.5f, -0.5f}, {0.0f, 1.0f, 0.0f, 1.0f}}, // 1: Bottom-right-back
-    {{ 0.5f,  0.5f, -0.5f}, {0.0f, 0.0f, 1.0f, 1.0f}}, // 2: Top-right-back
-    {{-0.5f,  0.5f, -0.5f}, {1.0f, 1.0f, 0.0f, 1.0f}}, // 3: Top-left-back
-    
-    // Top face vertices (z = 0.5)
-    {{-0.5f, -0.5f,  0.5f}, {1.0f, 0.0f, 1.0f, 1.0f}}, // 4: Bottom-left-front
-    {{ 0.5f, -0.5f,  0.5f}, {0.0f, 1.0f, 1.0f, 1.0f}}, // 5: Bottom-right-front
-    {{ 0.5f,  0.5f,  0.5f}, {0.5f, 0.5f, 0.5f, 1.0f}}, // 6: Top-right-front
-    {{-0.5f,  0.5f,  0.5f}, {1.0f, 0.5f, 0.0f, 1.0f}}  // 7: Top-left-front
+    // Unique vertices of a cube
+    {{-0.5f, -0.5f, -0.5f}, {0.0f, 0.0f, 0.0f, 1.0f}}, // 0: back-bottom-left
+    {{ 0.5f, -0.5f, -0.5f}, {1.0f, 0.0f, 0.0f, 1.0f}}, // 1: back-bottom-right
+    {{ 0.5f,  0.5f, -0.5f}, {1.0f, 1.0f, 0.0f, 1.0f}}, // 2: back-top-right
+    {{-0.5f,  0.5f, -0.5f}, {0.0f, 1.0f, 0.0f, 1.0f}}, // 3: back-top-left
+    {{-0.5f, -0.5f,  0.5f}, {0.0f, 0.0f, 1.0f, 1.0f}}, // 4: front-bottom-left
+    {{ 0.5f, -0.5f,  0.5f}, {1.0f, 0.0f, 1.0f, 1.0f}}, // 5: front-bottom-right
+    {{ 0.5f,  0.5f,  0.5f}, {1.0f, 1.0f, 1.0f, 1.0f}}, // 6: front-top-right
+    {{-0.5f,  0.5f,  0.5f}, {0.0f, 1.0f, 1.0f, 1.0f}}  // 7: front-top-left
 };
 
-std::vector<unsigned int> indecies {
-// Back face (z = -0.5)
-0, 1, 2,  2, 3, 0,
-// Front face (z = 0.5)
-4, 5, 6,  6, 7, 4,
-// Left face (x = -0.5)
-4, 0, 3,  3, 7, 4,
-// Right face (x = 0.5)
-1, 5, 6,  6, 2, 1,
-// Bottom face (y = -0.5)
-4, 5, 1,  1, 0, 4,
-// Top face (y = 0.5)
-3, 2, 6,  6, 7, 3
+std::vector<unsigned int> indices = {
+    // Back face (z = -0.5)
+    0, 1, 2,   2, 3, 0,
+    // Front face (z = 0.5)
+    4, 5, 6,   6, 7, 4,
+    // Left face (x = -0.5)
+    4, 0, 3,   3, 7, 4,
+    // Right face (x = 0.5)
+    1, 5, 6,   6, 2, 1,
+    // Bottom face (y = -0.5)
+    0, 1, 5,   5, 4, 0,
+    // Top face (y = 0.5)
+    3, 2, 6,   6, 7, 3
 };
 
-Camera mainCamera({0.0f, 2.0f, 0.0f});
+
+Camera mainCamera({0.0f, 0.0f, 3.0f});
 float deltaTime = 0.0f;
 float lastFrame = 0.0f;
 
@@ -67,7 +65,7 @@ int main()
 
     GLFWwindow* window;
     const char windowTitle[] = "[Skyscraper]";
-    window = glfwCreateWindow(wWidth, wHeight, windowTitle, NULL, NULL);
+    window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, windowTitle, NULL, NULL);
 
     if (window == NULL)
     {
@@ -86,8 +84,9 @@ int main()
 
     Shader basicShader("shaders/basic.vert", "shaders/basic.frag");
 
-    Mesh mesh(vertices, indecies);
-    SceneNode cube(mesh);
+    SceneNode cube(vertices, indices);
+    cube.Trans.position = glm::vec3(0.0f, 0.0f, 0.0f);
+	cube.Trans.scale = { 5.0f, 5.0f, 5.0f };
 
 
 	glEnable(GL_DEPTH_TEST);
@@ -115,10 +114,17 @@ int main()
 
 		basicShader.setMat4("view", view);
 		basicShader.setMat4("projection", projection);
+        basicShader.setMat4("model", cube.Trans.getLocalModelMatrix());
+        cube.Draw(basicShader);
 
-        mesh.Draw(basicShader);
 		// draw scene graph
-		cube.Draw(basicShader);	
+        // In your main loop, add this after setting matrices:
+        std::cout << "Camera position: " << mainCamera.Position.x << ", " << mainCamera.Position.y << ", " << mainCamera.Position.z << std::endl;
+
+        // Print the model matrix
+        glm::mat4 model = cube.Trans.getLocalModelMatrix();
+        std::cout << "Model matrix: " << std::endl;
+
 
 		// swap buffer and poll for events
         glfwSwapBuffers(window);
@@ -136,10 +142,7 @@ void processInput(GLFWwindow* window)
 		glfwSetWindowShouldClose(window, true);
 
 	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-    {
 		mainCamera.MoveCamera(FORWARD, deltaTime);
-        std::cout << "camera position :" << mainCamera.Position.x << mainCamera.Position.y << mainCamera.Position.z;
-    }
 	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
 		mainCamera.MoveCamera(BACKWARD, deltaTime);
 	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
