@@ -75,10 +75,11 @@ void Application::InitScene() {
     std::mt19937 gen(rd());
 
     std::uniform_real_distribution<float> heightDist(3.0f, 15.0f);  // Building heights
+    std::shared_ptr<Mesh> ground = MeshFactory::CreateMesh(MeshType::PLANE);
 
     std::shared_ptr<Mesh> cube = MeshFactory::CreateMesh(MeshType::CUBE);
 
-    root = new SceneNode(cube);
+    root = new SceneNode(ground);
     root->Trans.position = glm::vec3(0.0f, -0.1f, 0.0f);
     root->Trans.scale = {50.0f, 0.0f, 50.0f};
 
@@ -117,6 +118,28 @@ void Application::processInput() {
         mainCamera -> RotateCamera(90.0f * deltaTime, 0.0f);
     if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS)
         mainCamera -> RotateCamera(-90.0f * deltaTime, 0.0f);
+    static bool key1Pressed = false, key2Pressed = false;
+    if (glfwGetKey(window, GLFW_KEY_1) == GLFW_PRESS && !key1Pressed) {
+        isDayTime = true;
+        lightPos = glm::vec3(10.0f, 20.0f, 10.0f);
+        lightColor = glm::vec3(1.0f, 1.0f, 0.9f);
+        ambientLightStrength = 0.7f;
+
+        key1Pressed = true;
+    } else if (glfwGetKey(window, GLFW_KEY_1) == GLFW_RELEASE) {
+        key1Pressed = false;
+    }
+
+    if (glfwGetKey(window, GLFW_KEY_2) == GLFW_PRESS && !key2Pressed) {
+        isDayTime = false;
+        ambientLightStrength = 0.3f;
+        lightPos = glm::vec3(0.0f, 30.0f, 0.0f);
+        lightColor = glm::vec3(0.8f, 0.8f, 1.0f);
+
+        key2Pressed = true;
+    } else if (glfwGetKey(window, GLFW_KEY_2) == GLFW_RELEASE) {
+        key2Pressed = false;
+    }
 
     if (checkCollision()) {
         mainCamera -> Position = oldPosition;
@@ -125,15 +148,24 @@ void Application::processInput() {
 
 void Application::render()
 {
-    glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
+    if (isDayTime) {
+        glClearColor(0.5f, 0.8f, 1.0f, 1.0f); // Day sky
+    } else {
+        glClearColor(0.1f, 0.1f, 0.2f, 1.0f); // Night sky
+    }
     //shader enable
     shader->use();
 
     // view / projection
     glm::mat4 view = mainCamera -> GetViewMatrix();
     glm::mat4 projection = glm::perspective(glm::radians(45.0f), (float) wWidth / (float) wHeight, 0.01f, 100.0f);
+
+    // set light colors
+    shader->setVec3("lightColor", lightColor);
+    shader->setVec3("lightPosition", lightPos);
+    shader->setVec4("objectColor", {0.8f, 0.8f, 0.8f, 1.0f});
+    shader->setFloat("ambientStrength", ambientLightStrength);
 
     // draw scene graph
     shader -> setMat4("view", view);
@@ -178,5 +210,3 @@ Application::~Application() {
     delete mainCamera;
     glfwTerminate();
 }
-
-

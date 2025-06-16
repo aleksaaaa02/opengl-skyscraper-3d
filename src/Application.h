@@ -20,6 +20,10 @@ class Application {
     Shader *shader;
     float deltaTime = 0.0f, lastFrame = 0.0f;
     SceneNode *root;
+    glm::vec3 lightPos = glm::vec3(0.0f, 15.0f, 3.0f);
+    glm::vec3 lightColor = glm::vec3(1.0f, 1.0f, 1.0f);
+    float ambientLightStrength = 0.7;
+    bool isDayTime = true;
 
     void framebuffer_size_callback(GLFWwindow* window, int width, int height);
     void processInput();
