@@ -8,18 +8,18 @@
 
 struct Vertex  {
 	glm::vec3 Position;
-	glm::vec4 Colors;
+	glm::vec3 Normal;
 };
 
 class Mesh {
 	std::vector<Vertex> vertices;
-	std::vector<unsigned int> indices;
 	void meshSetup();
-	unsigned int VBO, EBO;
+	unsigned int VBO;
 
 public:
+	glm::vec3 Colors = { 1.0f, 1.0f, 1.0f };
 	unsigned int VAO;
-	Mesh(const std::vector<Vertex> &vertices, const std::vector<unsigned int> &indices);
+	explicit Mesh(const std::vector<Vertex> &vertices);
 	Mesh(const Mesh& other);
 	Mesh();
 	~Mesh();

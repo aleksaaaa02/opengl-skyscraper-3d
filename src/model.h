@@ -12,10 +12,10 @@ protected:
 	std::shared_ptr<Mesh> mesh;
 	
 public:
-	void Draw(Shader& shader);
-	Model(const Mesh& mesh);
-	Model(std::shared_ptr<Mesh> mesh);
-	Model(const std::vector<Vertex>& vertices, const std::vector<unsigned int>& indices);
+	void Draw(Shader& shader) const;
+	explicit Model(const Mesh& mesh);
+	explicit Model(std::shared_ptr<Mesh> mesh);
+	explicit Model(const std::vector<Vertex>& vertices);
 	Model() = default;
 	~Model();
 };

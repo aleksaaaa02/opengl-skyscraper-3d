@@ -80,7 +80,7 @@ void Application::InitScene() {
     std::shared_ptr<Mesh> cube = MeshFactory::CreateMesh(MeshType::CUBE);
 
     root = new SceneNode(ground);
-    root->Trans.position = glm::vec3(0.0f, -0.1f, 0.0f);
+    root->Trans.position = glm::vec3(0.0f, -0.01f, 0.0f);
     root->Trans.scale = {50.0f, 0.0f, 50.0f};
 
     // Create a grid of buildings with streets between them
@@ -121,7 +121,7 @@ void Application::processInput() {
     static bool key1Pressed = false, key2Pressed = false;
     if (glfwGetKey(window, GLFW_KEY_1) == GLFW_PRESS && !key1Pressed) {
         isDayTime = true;
-        lightPos = glm::vec3(10.0f, 20.0f, 10.0f);
+        lightPos = glm::vec3(0.0f, 15.0f, 5.0f);
         lightColor = glm::vec3(1.0f, 1.0f, 0.9f);
         ambientLightStrength = 0.7f;
 
@@ -132,7 +132,7 @@ void Application::processInput() {
 
     if (glfwGetKey(window, GLFW_KEY_2) == GLFW_PRESS && !key2Pressed) {
         isDayTime = false;
-        ambientLightStrength = 0.3f;
+        ambientLightStrength = 0.2f;
         lightPos = glm::vec3(0.0f, 30.0f, 0.0f);
         lightColor = glm::vec3(0.8f, 0.8f, 1.0f);
 
@@ -193,11 +193,13 @@ bool Application::checkCollision() {
     for (auto&& building : root -> children) {
         float dx = abs(building -> Trans.position.x - newPos.x);
         float dz = abs(building -> Trans.position.z - newPos.z);
+        float dy = abs(building -> Trans.position.y - newPos.y);
 
         float halfWidth = building -> Trans.scale.x / 2.0f;
         float halfDepth = building -> Trans.scale.z / 2.0f;
+        float halfHeight = building -> Trans.scale.y / 2.0f;
 
-        if (dx < halfWidth && dz < halfDepth) {
+        if (dx < halfWidth && dz < halfDepth && dy < halfHeight) {
             return true;
         }
     }

@@ -26,7 +26,7 @@ SceneNode::SceneNode(const Mesh& mesh) : Model(mesh)
 
 }
 
-SceneNode::SceneNode(const std::vector<Vertex>& vertices, const std::vector<unsigned int>& indices) : Model(vertices, indices)
+SceneNode::SceneNode(const std::vector<Vertex>& vertices, const std::vector<unsigned int>& indices) : Model(vertices)
 {
 
 }
