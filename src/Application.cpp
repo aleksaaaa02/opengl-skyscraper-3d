@@ -130,7 +130,7 @@ void Application::render()
 
     // view / projection
     glm::mat4 view = mainCamera -> GetViewMatrix();
-    glm::mat4 projection = glm::perspective(glm::radians(45.0f), (float) wWidth / (float) wHeight, 0.1f, 100.0f);
+    glm::mat4 projection = glm::perspective(glm::radians(45.0f), (float) wWidth / (float) wHeight, 0.01f, 100.0f);
 
     // draw scene graph
     shader -> setMat4("view", view);
@@ -159,8 +159,8 @@ bool Application::checkCollision() {
         float dx = abs(building -> Trans.position.x - newPos.x);
         float dz = abs(building -> Trans.position.z - newPos.z);
 
-        float halfWidth = building -> Trans.scale.x / 2.0f + 0.00001f;
-        float halfDepth = building -> Trans.scale.z / 2.0f + 0.00001f;
+        float halfWidth = building -> Trans.scale.x / 2.0f;
+        float halfDepth = building -> Trans.scale.z / 2.0f;
 
         if (dx < halfWidth && dz < halfDepth) {
             return true;
