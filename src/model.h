@@ -12,6 +12,7 @@ protected:
 	std::shared_ptr<Mesh> mesh;
 	
 public:
+	void setColor(glm::vec3 color);
 	void Draw(Shader& shader) const;
 	explicit Model(const Mesh& mesh);
 	explicit Model(std::shared_ptr<Mesh> mesh);

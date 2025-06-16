@@ -16,7 +16,7 @@ Mesh::Mesh(const Mesh &other) : vertices(other.vertices)
 
 void Mesh::Draw(Shader &shader) const {
 	glBindVertexArray(VAO);
-	shader.setVec3("objectColor", this -> Colors);
+	shader.setVec4("objectColor", glm::vec4(this -> Colors, 1.0f));
 	glDrawArrays(GL_TRIANGLES, 0, static_cast<unsigned int>(vertices.size()));
 	glBindVertexArray(0);
 }

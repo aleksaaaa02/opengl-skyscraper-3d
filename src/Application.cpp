@@ -3,7 +3,6 @@
 //
 
 #include "Application.h"
-
 #include <random>
 
 
@@ -41,11 +40,6 @@ int Application::InitOpenGL() {
         std::cout << "GLEW nije mogao da se ucita";
         return 3;
     }
-
-    glEnable(GL_DEPTH_TEST);
-    glEnable(GL_CULL_FACE);
-    glCullFace(GL_BACK);
-
     shader = new Shader("shaders/basic.vert", "shaders/basic.frag");
     return 0;
 }
@@ -80,6 +74,7 @@ void Application::InitScene() {
     std::shared_ptr<Mesh> cube = MeshFactory::CreateMesh(MeshType::CUBE);
 
     root = new SceneNode(ground);
+    root -> setColor({0.0f, 1.0f, 0.0f});
     root->Trans.position = glm::vec3(0.0f, -0.01f, 0.0f);
     root->Trans.scale = {50.0f, 0.0f, 50.0f};
 
@@ -95,6 +90,8 @@ void Application::InitScene() {
             root->AddChild(std::move(building));
         }
     }
+
+    signatureRenderer = new SignatureRenderer("./res/name.png");
 }
 
 void Application::processInput() {
@@ -149,13 +146,18 @@ void Application::processInput() {
 void Application::render()
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
     if (isDayTime) {
         glClearColor(0.5f, 0.8f, 1.0f, 1.0f); // Day sky
     } else {
         glClearColor(0.1f, 0.1f, 0.2f, 1.0f); // Night sky
     }
+
     //shader enable
     shader->use();
+    glEnable(GL_DEPTH_TEST);
+    glEnable(GL_CULL_FACE);
+    glCullFace(GL_BACK);
 
     // view / projection
     glm::mat4 view = mainCamera -> GetViewMatrix();
@@ -164,14 +166,14 @@ void Application::render()
     // set light colors
     shader->setVec3("lightColor", lightColor);
     shader->setVec3("lightPosition", lightPos);
-    shader->setVec4("objectColor", {0.8f, 0.8f, 0.8f, 1.0f});
     shader->setFloat("ambientStrength", ambientLightStrength);
 
     // draw scene graph
     shader -> setMat4("view", view);
     shader -> setMat4("projection", projection);
-    root -> DrawSelfAndChild(*shader);
 
+    root -> DrawSelfAndChild(*shader);
+    signatureRenderer->Draw(wWidth, wHeight);
 }
 
 

@@ -12,6 +12,8 @@
 #include "mesh_factory.h"
 #include <vector>
 
+#include "signature_renderer.h"
+
 class Application {
     Camera *mainCamera;
     float wWidth, wHeight;
@@ -31,6 +33,7 @@ class Application {
     void render();
     bool checkCollision();
 public:
+    SignatureRenderer *signatureRenderer = nullptr;
     Application(float wWidth, float wHeight, char* title);
     ~Application();
     void Run();

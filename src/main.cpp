@@ -1,6 +1,5 @@
 #define _CRT_SECURE_NO_WARNINGS
 
-
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
@@ -16,7 +15,7 @@ void processInput(GLFWwindow *window);
 
 int main()
 {
-	Application app(800, 600, "[Skyscraper]");
+	Application app(800, 600, "Skyscraper");
 
 	if (app.InitOpenGL() != 0) {
 	    return 1;

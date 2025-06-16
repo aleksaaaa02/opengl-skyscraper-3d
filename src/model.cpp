@@ -23,3 +23,6 @@ Model::Model(const std::vector<Vertex>& vertices) : mesh(std::make_shared<Mesh>(
 
 Model::~Model() = default;
 
+void Model::setColor(glm::vec3 color) {
+	this -> mesh -> Colors = color;
+}

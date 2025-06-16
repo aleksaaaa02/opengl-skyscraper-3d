@@ -31,3 +31,18 @@ add_custom_target(
   DEPENDS ${SHADER_FILES})
 
 add_dependencies(${PROJECT_NAME} copy_shaders)
+
+# Resources:
+set(RESC_DIR ${CMAKE_SOURCE_DIR}/res)
+set(RESC_OUTPUT_DIR ${CMAKE_BINARY_DIR}/res)
+
+file(GLOB RESC_FILES ${RESC_DIR}/*)
+
+file(MAKE_DIRECTORY ${RESC_OUTPUT_DIR})
+
+add_custom_target(
+        copy_resc ALL
+        COMMAND ${CMAKE_COMMAND} -E copy_directory ${RESC_DIR} ${RESC_OUTPUT_DIR}
+        DEPENDS ${RESC_FILES})
+
+add_dependencies(${PROJECT_NAME} copy_resc)
