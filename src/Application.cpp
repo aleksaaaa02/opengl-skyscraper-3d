@@ -43,6 +43,9 @@ int Application::InitOpenGL() {
     }
 
     glEnable(GL_DEPTH_TEST);
+    glEnable(GL_CULL_FACE);
+    glCullFace(GL_BACK);
+
     shader = new Shader("shaders/basic.vert", "shaders/basic.frag");
     return 0;
 }
@@ -76,7 +79,7 @@ void Application::InitScene() {
     std::shared_ptr<Mesh> cube = MeshFactory::CreateMesh(MeshType::CUBE);
 
     root = new SceneNode(cube);
-    root->Trans.position = glm::vec3(0.0f, 0.0f, 0.0f);
+    root->Trans.position = glm::vec3(0.0f, -0.1f, 0.0f);
     root->Trans.scale = {50.0f, 0.0f, 50.0f};
 
     // Create a grid of buildings with streets between them

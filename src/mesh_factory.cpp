@@ -27,17 +27,17 @@ std::shared_ptr<Mesh> MeshFactory::CreateCube() {
 
     std::vector<unsigned int> indices = {
         // Back face (z = -0.5)
-        0, 1, 2,   2, 3, 0,
+        0, 2, 1,   0, 3, 2,
         // Front face (z = 0.5)
-        4, 5, 6,   6, 7, 4,
+        4, 5, 6,   4, 6, 7,
         // Left face (x = -0.5)
-        4, 0, 3,   3, 7, 4,
+        4, 7, 3,   4, 3, 0,
         // Right face (x = 0.5)
-        1, 5, 6,   6, 2, 1,
+        1, 2, 6,   1, 6, 5,
         // Bottom face (y = -0.5)
-        0, 1, 5,   5, 4, 0,
+        0, 1, 5,   0, 5, 4,
         // Top face (y = 0.5)
-        3, 2, 6,   6, 7, 3
+        3, 7, 6,   3, 6, 2
     };
 
     return std::make_unique<Mesh>(vertices, indices);
