@@ -4,6 +4,7 @@
 
 #include "Application.h"
 #include <random>
+#include <bits/this_thread_sleep.h>
 
 
 Application::Application(const float wWidth, const float wHeight, char* title)
@@ -45,9 +46,11 @@ int Application::InitOpenGL() {
 }
 
 void Application::Run() {
-
+    const double TARGET_FPS = 60.0f;
+    const double FRAME_TIME = 1.0f / TARGET_FPS;
     while(!glfwWindowShouldClose(window))
     {
+        double currentTime = glfwGetTime();
         updateTime();
         processInput();
         render();
@@ -55,6 +58,12 @@ void Application::Run() {
         if (checkCollision()) {
             std::cout << "Collision detected" << std::endl;
         }
+        double renderTime = glfwGetTime() - currentTime;
+
+        if (renderTime < FRAME_TIME) {
+            std::this_thread::sleep_for(std::chrono::duration<double>(FRAME_TIME - renderTime));
+        }
+
         glfwSwapBuffers(window);
         glfwPollEvents();
 
@@ -78,10 +87,8 @@ void Application::InitScene() {
     root->Trans.position = glm::vec3(0.0f, -0.01f, 0.0f);
     root->Trans.scale = {50.0f, 0.0f, 50.0f};
 
-    // Create a grid of buildings with streets between them
     for (int x = -20; x <= 20; x += 4) {
         for (int z = -20; z <= 20; z += 4) {
-            // Skip center area for spawn
             if (abs(x) < 4 && abs(z) < 4) continue;
             float height = heightDist(gen);
             std::unique_ptr<SceneNode> building = std::make_unique<SceneNode>(cube);

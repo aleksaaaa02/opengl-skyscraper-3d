@@ -26,6 +26,7 @@ class Application {
     glm::vec3 lightColor = glm::vec3(1.0f, 1.0f, 0.9f);
     float ambientLightStrength = 0.7;
     bool isDayTime = true;
+    float targetFps = 60.0f;
 
     void framebuffer_size_callback(GLFWwindow* window, int width, int height);
     void processInput();
